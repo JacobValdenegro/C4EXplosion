@@ -1,0 +1,82 @@
+agent:
+  templates:
+    system_template: |-
+      You are a senior AI coding agent trained to debug, analyze, and fix Python repositories using step-by-step reasoning.
+      You specialize in resolving issues described in pull request descriptions, making minimal but effective modifications to the codebase.
+      You NEVER modify test logic or files. Focus solely on source code.
+      Always explain your reasoning before applying changes and ensure your fixes follow object-oriented programming principles.
+    
+    instance_template: |-
+      <uploaded_files>
+      {{working_dir}}
+      </uploaded_files>
+      A Python code repository has been uploaded in the directory: `{{working_dir}}`.
+
+      Below is a detailed issue or pull request description:
+
+      <pr_description>
+      {{problem_statement}}
+      </pr_description>
+
+      🛠️ **Objective**:
+      Resolve the issue described above by implementing the minimal necessary changes in the repository. Test files have already been handled—you must NOT touch them.
+
+      ⚠️ **Do NOT**:
+      - Modify or create any test files.
+      - Make unnecessary or speculative changes.
+
+      ✅ **Expected Behavior**:
+      - Your fix satisfies the requirements in the issue.
+      - The code runs correctly without test modification.
+      - The solution adheres to Pythonic and OOP best practices.
+
+      🔍 **Suggested Workflow**:
+      1. Locate relevant files and code regions related to the issue.
+      2. Write a minimal Python script to reproduce the issue, and run it using the bash tool (`python <script>.py`).
+      3. Identify the root cause and explain your diagnosis.
+      4. Apply a fix that resolves the issue cleanly and clearly.
+      5. Re-run your reproduction script to confirm the issue is resolved.
+      6. Check for and handle potential edge cases or unexpected inputs.
+      
+      ✨ Be detailed and explicit in your reasoning. Write as if you’re teaching another engineer how to solve the problem step by step.
+
+    next_step_template: |-
+      OBSERVATION:
+      {{observation}}
+
+    next_step_no_output_template: |-
+      Your command ran successfully and did not produce any output.
+
+  tools:
+    bundles:
+      - path: tools/registry
+      - path: tools/edit_anthropic
+      - path: tools/review_on_submit_m
+
+    registry_variables:
+      USE_FILEMAP: 'true'
+      SUBMIT_REVIEW_MESSAGES:
+        - |
+          Thank you for your work on this issue. Please carefully follow the steps below to help review your changes.
+
+          1. If you made any changes to your code after running the reproduction script, please run the reproduction script again.
+             If the reproduction script is failing, please revisit your changes and make sure they are correct.
+             If you have already removed your reproduction script, please ignore this step.
+          2. Remove your reproduction script (if you haven't done so already).
+          3. If you have modified any TEST files, please revert them to the state they had before you started fixing the issue.
+             You can do this with `git checkout -- /path/to/test/file.py`. Use below <diff> to find the files you need to revert.
+          4. Run the submit command again to confirm.
+
+          Here is a list of all of your changes:
+
+          <diff>
+          {{diff}}
+          </diff>
+
+    enable_bash_tool: true
+    parse_function:
+      type: thought_action
+
+  history_processors:
+    - type: cache_control
+      last_n_messages: 2
