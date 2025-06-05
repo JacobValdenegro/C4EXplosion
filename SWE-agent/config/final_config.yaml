@@ -1,6 +1,6 @@
 agent:
   model:
-    name: openai/hf.co/ben100496/qwen2.5-14b-guff-v2:Q4_K_M
+    name: ollama/hf.co/ben100496/qwen2.5-14b-guff-v2:Q4_K_M
     api_base: https://a01642356--ollama-server-ollamaserver-serve.modal.run  
     per_instance_cost_limit: 0
     total_cost_limit: 0
