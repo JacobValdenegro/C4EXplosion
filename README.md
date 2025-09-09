@@ -68,10 +68,15 @@ The agent uses the following settings in its YAML configuration:
 ## 🧑‍💼 Authors
 
 **Benjamín Gutiérrez Mendoza**
+
 **Jacob Valdenegro Monzón**  
+
 **Josue Daniel Bahena Panécatl**
+
 **Paola Félix Torres**
+
 **Roberto Angel Rillo Calva**
+
 Tecnológico de Monterrey · TC3002B · *Enhancing Coder Agents for Issue Fixing with Compiler Techniques*
 
 ---
