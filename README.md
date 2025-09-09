@@ -1,26 +1,24 @@
-# 💥 C4 Explosion Agent
+# 💥 OOP AI-Agent for Automated Bug Fixing
 
-C4 Explosion is a powerful AI assistant designed to interpret, analyze, and automate tasks related to **customs regulations, tariff classification**, and **international trade documentation**. It is built on a fine-tuned language model using the `detonators_model_aranceles` and provides fast, structured, and accurate responses for trade professionals, customs brokers, and compliance teams.
-
----
+C4EXplosion is an AI agent that extends SWE-Agent to automatically locate and fix bugs in Object-Oriented Programming (OOP) code.
+It integrates compiler-inspired analysis and a fine-tuned Qwen2.5 model, achieving more accurate and reliable patches than baseline agents.
 
 ## 🚀 Features
 
-- 🧠 Deep understanding of **tariff codes, aranceles, and fracciones arancelarias**.
-- 📚 Reads and interprets official documents (e.g. LIGIE, NOMs, pedimentos).
-- 📊 Calculates applicable duties and taxes (IVA, IEPS, DTA) from uploaded data.
-- 📝 Generates structured responses, tables, and formulas based on regulatory criteria.
-- 🔎 Extracts, validates and interprets fields from customs declarations and invoices.
+*   **Structured Code Analysis:** We developed a custom compiler to classify OOP-style code and filter training data, ensuring semantic consistency.
+*   **Fine-Tuned Language Model (LLM):** A curated dataset of OOP Python examples was used to fine-tune a Qwen2.5 14B-Instruct model using QLoRA on Modal's A100 GPUs.
+*   **Improved Performance:** The fine-tuned model outperformed SWE-Fixer and base SWE-Agent baselines, achieving significant improvements in functional correctness and patch quality.
+*   **Hybrid Approach:** Integrates classic compiler design with modern LLM-based AI techniques to enhance the accuracy and reliability of automated bug fixing.
+*   **Modular Architecture:** Designed to allow future improvements with additional code features, new classifiers, or specialized datasets.
 
----
 
 ## 📦 File Structure
 
 ```
 .
-├── config/
-│   └── c4_explosion.yaml   # Agent configuration
-├── README.md               # This file
+├── SWE-agent/
+│   └── config/ # Agent configuration
+├── Pass@k/     # Evaluation and metrics
 ```
 
 ---
@@ -29,23 +27,19 @@ C4 Explosion is a powerful AI assistant designed to interpret, analyze, and auto
 
 The agent uses the following settings in its YAML configuration:
 
-- **Model**: `ollama/ben1000496/detonators_model_aranceles`
+- **Model**: `ollama/ben100496/qwen2.5-14b-guff`
 - **API Base**: `http://localhost:11434`
 - **Parser Function**: `thought_action` mode for reasoning and structured execution.
 - **Tools**: Bash tool enabled for script execution or local validation tasks.
 
-System prompt includes:
-> "You are a multilingual AI assistant specialized in analyzing and interpreting legal, fiscal, and trade documents, with deep expertise in tariffs, customs codes, and international trade regulations..."
-
 ---
 
-## 🧪 Usage Scenarios
+## 📊 Key Results
 
-- **Tariff classification**: Given a product description, suggest the correct fracción arancelaria.
-- **Duty estimation**: Calculate applicable taxes for a given CIF value, HS code, and import regime.
-- **Document review**: Upload pedimentos or invoices and validate content.
-- **NOM/NMX/NAD compliance checks**.
-
+| Method                           | Correct Patch (%) | Partial Fix (%) | Invalid Patch (%) |
+| :------------------------------- | :------------------ | :----------------- | :------------------ |
+| SWE-fixer Xie et al. [2025]      | 76.3                | 12.5               | 11.2                |
+| Our Method (Fine-Tuned Qwen2.5) | **86.7**            | 8.0                | **5.3**             |
 ---
 
 ## 🛠️ Getting Started
@@ -57,7 +51,7 @@ System prompt includes:
    ```
 3. Launch the agent:
    ```bash
-   sweagent run --config config/c4_explosion.yaml
+   sweagent run --config config/final_config.yaml
    ```
 
 ---
@@ -70,12 +64,6 @@ System prompt includes:
 
 ---
 
-## 📢 Notes
-
-- This agent is **not intended to replace legal or customs advice**. It should be used as a support tool for analysis, not as the sole decision-maker.
-- For best results, input complete and detailed descriptions or documents.
-
----
 
 ## 🧑‍💼 Authors
 
